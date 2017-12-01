@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Markdown Editor</title>
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="index.css">
+</head>
+<body>
+	<header id="app-header">
+		<h1>Markdown Editor</h1>	
+	</header>
+	
+	<main id="app-container">
+		
+
+		<form id="md-editor" class="w3-container">
+			<h4 id="md-file__selected"></h4>	
+			<section id="md-ed">
+				<textarea name="md-ed__input" id="md-ed__input" rows="20"></textarea>
+				<button id="md-ed__pick" class="w3-button">Pick File</button>
+				<button id="md-ed__preview" class="w3-button">Preview</button>
+				<button id="md-ed__save" class="w3-button">Save</button>
+			</section>
+		</form>
+
+		<section id="md-preview__container" class="w3-container"></section>
+
+	</main>
+	<script src="index.js"></script>
+</body>
+</html>
