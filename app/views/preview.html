@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>HTML Preview</title>
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../index.css">
+</head>
+<body>
+	<main id="app-container">
+		<section id="md-preview__container" class="w3-container"></section>
+	</main>
+	<script>
+		const ipc = require('electron').ipcRenderer;
+		const main = require('electron').remote.require('./main');
+		
+		alert('content received');		
+		
+		ipc.on('preview-content', function(event){
+			document.querySelector('#md-preview__container').innerHTML = main.content;
+		});	
+	</script>	
+</body>
+</html>

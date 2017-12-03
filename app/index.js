@@ -24,8 +24,15 @@ ipc.on('selected-file', function (event, path) {
 
 document.querySelector('#md-ed__preview').addEventListener('click', function(e){
 	e.preventDefault();
+
 	content = document.querySelector('#md-ed__input').value;
-	document.querySelector('#md-preview__container').innerHTML = marked(content);
+	
+	ipc.send('open-window', {
+		target: 'preview',
+		content: marked(content)
+	});
+
+	alert('mardkown sent');
 });
 
 document.querySelector('#md-ed__save').addEventListener('click', function(e){
@@ -33,13 +40,28 @@ document.querySelector('#md-ed__save').addEventListener('click', function(e){
 	ipc.send('save-file-dialog', filePath);	
 });
 
-ipc.on('save-file', function(event, pathname){
+ipc.on('save-file__md', function(event, pathname){
 	content = document.querySelector('#md-ed__input').value;
 	fs.writeFile(pathname, content, function(err){
 		if(err){
 			throw err;
 		}
 
+		document.querySelector('#md-ed__input').value = '';
 		alert(`${pathname} written`);
 	});
+});
+
+ipc.on('save-file__html', function(event, state){
+	content = `<!DOCTYPE html><html lang="en">
+		${document.head.innerHTML.toString()}
+		${document.body.innerHTML.toString()}
+	</html>`;
+
+	fs.writeFile(state.pathname, content, function(err){
+		if(err){
+			throw err;
+		}
+
+	})
 });
