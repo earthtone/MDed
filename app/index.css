@@ -42,3 +42,7 @@
 	color: #8fcc49;
 	font-family: 'Share Tech Mono', monospace;
 }
+
+#md-assets input.asset {
+	width: 100%;
+}

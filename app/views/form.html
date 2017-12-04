@@ -19,14 +19,19 @@
 			<h4 id="md-file__selected"></h4>	
 			<section id="md-ed">
 				<textarea name="md-ed__input" id="md-ed__input" rows="20"></textarea>
-				<button id="md-ed__pick" class="w3-button">Pick File</button>
+				<button id="md-ed__pick" class="w3-button">Open</button>
 				<button id="md-ed__preview" class="w3-button">Preview</button>
 				<button id="md-ed__save" data-type="md" class="w3-button">Save</button>
 				<button id="md-ed__generate" data-type="html" class="w3-button">Generate</button>
 			</section>
+			<section id="md-assets">
+				<input type="text" class="asset w3-input" placeholder="Input Asset URL">
+			</section>
 		</form>
 
 	</main>
-	<script src="../index.js"></script>
+	<script>
+		require('../index.js');
+	</script>
 </body>
 </html>

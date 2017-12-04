@@ -50,7 +50,6 @@ module.exports = function generatePage(state){
     <style>
       body {
         padding: 1em;
-        font-family: sans-serif;
       }
     </style>
   </head>

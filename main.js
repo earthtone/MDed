@@ -30,14 +30,14 @@ ipcMain.on('save-file-dialog', function (event, state) {
   var filecontent;
 
   if (state.type === 'html'){
+    let stylesheets = state.assets.filter(asset => asset.match(/\.css$/ig));
+    let scripts = state.assets.filter(asset => asset.match(/\.js$/ig));
+      
     options.filters = [{ name: 'HTML', extensions: ['html'] }];
     filecontent = template({
       meta: {
-        stylesheets: ['https://fonts.googleapis.com/css?family=Roboto', 
-          'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
-           'https://normalize-css.googlecode.com/svn/trunk/normalize.css'
-        ],
-        scripts: []
+        stylesheets: stylesheets,
+        scripts: scripts
       }, 
       content: marked(state.content)
     });
@@ -54,18 +54,17 @@ ipcMain.on('save-file-dialog', function (event, state) {
   });
 });
 
-ipcMain.on('open-preview-window', function(event, content){
+ipcMain.on('open-preview-window', function(event, state){
   var file = `${__dirname}/.temp/${randomHex(9)}.html`;
-  var html = template({
+  var stylesheets = state.assets.filter(asset => asset.match(/\.css$/ig));
+  var scripts = state.assets.filter(asset => asset.match(/\.js$/ig));
+  
+    var html = template({
     meta: {
-      stylesheets: [
-        'https://fonts.googleapis.com/css?family=Roboto', 
-        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
-        '../app/index.css'
-       ],
-       scripts: []  
+      stylesheets: stylesheets,
+       scripts: scripts 
     }, 
-    content: marked(content)
+    content: marked(state.content)
   });
  
   fs.writeFile(file, html, function(err){
