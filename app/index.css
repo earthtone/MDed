@@ -38,5 +38,7 @@
 
 #md-ed__input {
 	width: 100%;
-	color: #000;
+	background-color: #000;
+	color: #8fcc49;
+	font-family: 'Share Tech Mono', monospace;
 }

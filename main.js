@@ -1,28 +1,22 @@
 const os = require('os');
 const fs = require('fs');
 const path = require('path');
+const marked = require('marked');
 
 const electron = require('electron');
 const { app, BrowserWindow, dialog, ipcMain, shell } = electron;
 
-var mainWindow, previewWindow, content;
+const template = require('./app/lib/page-template');
+const randomHex = require('./app/lib/random-hex');
+var form, previewWindow, content;
 
 app.on('ready', function(){
-	mainWindow = new BrowserWindow({
+	form = new BrowserWindow({
     height: 720,
     width: 500
   });
-	mainWindow.loadURL(`file://${__dirname}/app/index.html`);
-});
 
-ipcMain.on('open-window', function(event, state){
-  let win = new BrowserWindow({ width: 320, height: 700});
-  win.loadURL(`file://${__dirname}/app/views/${state.target}.html`);
-
-  exports.content = state.content;
-  win.webContents.on('dom-ready', function(event, state){
-    event.sender.send('preview-content');
-  });
+	form.loadURL(`file://${__dirname}/app/views/form.html`);
 });
 
 ipcMain.on('open-file-dialog', function (event) {
@@ -31,14 +25,54 @@ ipcMain.on('open-file-dialog', function (event) {
   });
 });
 
-ipcMain.on('save-file-dialog', function (event, filePath) {
-  const options = {
-    title: 'Save File',
-    filters: [{ name: 'Markdown', extensions: ['md'] }]
-  };
+ipcMain.on('save-file-dialog', function (event, state) {
+  const options = { title: 'Save File' };
+  var filecontent;
+
+  if (state.type === 'html'){
+    options.filters = [{ name: 'HTML', extensions: ['html'] }];
+    filecontent = template({
+      meta: {
+        stylesheets: ['https://fonts.googleapis.com/css?family=Roboto', 
+          'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
+           'https://normalize-css.googlecode.com/svn/trunk/normalize.css'
+        ],
+        scripts: []
+      }, 
+      content: marked(state.content)
+    });
+  } else {
+    options.filters = [{ name: 'Markdown', extensions: ['md'] }];
+    filecontent = state.content;
+  }
 
   dialog.showSaveDialog(options, function (filename) {
-    event.sender.send('save-file__md', filename)
+    fs.writeFile(filename, filecontent, function(err){
+      if(err) throw err;
+      event.sender.send('markdown-written', filename);
+    });
+  });
+});
+
+ipcMain.on('open-preview-window', function(event, content){
+  var file = `${__dirname}/.temp/${randomHex(9)}.html`;
+  var html = template({
+    meta: {
+      stylesheets: [
+        'https://fonts.googleapis.com/css?family=Roboto', 
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
+        '../app/index.css'
+       ],
+       scripts: []  
+    }, 
+    content: marked(content)
+  });
+ 
+  fs.writeFile(file, html, function(err){
+    if(err) throw err;
+    
+    let win = new BrowserWindow();
+    win.loadURL(`file://${file}`);
   });
 });
 

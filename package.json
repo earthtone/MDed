@@ -4,8 +4,10 @@
   "description": "Markdown Editor",
   "main": "main.js",
   "scripts": {
+    "clean": "rm -rf .temp",
     "pretest": "eslint ./**/*.js",
     "test": "browserify app/test/*.spec.js | tape-run | tap-spec",
+    "prestart": "mkdir -p .temp",
     "start": "electron ."
   },
   "author": "earthtone <earthlyillusion@gmail.com>",

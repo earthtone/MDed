@@ -4,8 +4,9 @@
 	<meta charset="UTF-8">
 	<title>Markdown Editor</title>
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="index.css">
+	<link rel="stylesheet" href="../index.css">
 </head>
 <body>
 	<header id="app-header">
@@ -21,11 +22,12 @@
 				<textarea name="md-ed__input" id="md-ed__input" rows="20"></textarea>
 				<button id="md-ed__pick" class="w3-button">Pick File</button>
 				<button id="md-ed__preview" class="w3-button">Preview</button>
-				<button id="md-ed__save" class="w3-button">Save</button>
+				<button id="md-ed__save" data-type="md" class="w3-button">Save</button>
+				<button id="md-ed__generate" data-type="html" class="w3-button">Generate</button>
 			</section>
 		</form>
 
 	</main>
-	<script src="index.js"></script>
+	<script src="../index.js"></script>
 </body>
 </html>

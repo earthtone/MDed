@@ -2,12 +2,12 @@ const ipc = require('electron').ipcRenderer;
 const fs = require('fs');
 const marked = require('marked');
 
-var content, filePath;
+var filePath;
 
-document.querySelector('#md-ed__pick').addEventListener('click', function(e){
-	e.preventDefault();
-	ipc.send('open-file-dialog');
-});
+document.querySelector('#md-ed__pick').addEventListener('click', pick);
+document.querySelector('#md-ed__preview').addEventListener('click', preview);
+document.querySelector('#md-ed__save').addEventListener('click', save);
+document.querySelector('#md-ed__generate').addEventListener('click', save);
 
 ipc.on('selected-file', function (event, path) {
 	if(!path.match(/\.md/ig)){
@@ -15,53 +15,26 @@ ipc.on('selected-file', function (event, path) {
 		return;
 	}
 
-	filePath = path;
-	content = fs.readFileSync(filePath).toString();
-
+	var content = fs.readFileSync(path).toString();
   document.querySelector('#md-file__selected').textContent = `You selected: ${path}`;
   document.querySelector('#md-ed__input').value = content;
 });
 
-document.querySelector('#md-ed__preview').addEventListener('click', function(e){
+function pick(e){
 	e.preventDefault();
+	ipc.send('open-file-dialog');
+}
 
-	content = document.querySelector('#md-ed__input').value;
+function preview(e){
+	e.preventDefault();
 	
-	ipc.send('open-window', {
-		target: 'preview',
-		content: marked(content)
-	});
+	var content = document.querySelector('#md-ed__input').value;
+	ipc.send('open-preview-window', content);
+}
 
-	alert('mardkown sent');
-});
-
-document.querySelector('#md-ed__save').addEventListener('click', function(e){
+function save(e){
 	e.preventDefault();
-	ipc.send('save-file-dialog', filePath);	
-});
-
-ipc.on('save-file__md', function(event, pathname){
-	content = document.querySelector('#md-ed__input').value;
-	fs.writeFile(pathname, content, function(err){
-		if(err){
-			throw err;
-		}
-
-		document.querySelector('#md-ed__input').value = '';
-		alert(`${pathname} written`);
-	});
-});
-
-ipc.on('save-file__html', function(event, state){
-	content = `<!DOCTYPE html><html lang="en">
-		${document.head.innerHTML.toString()}
-		${document.body.innerHTML.toString()}
-	</html>`;
-
-	fs.writeFile(state.pathname, content, function(err){
-		if(err){
-			throw err;
-		}
-
-	})
-});
+	var type = this.dataset.type || 'md';
+	var content = document.querySelector('#md-ed__input').value;
+	ipc.send('save-file-dialog', { type, content });
+}
