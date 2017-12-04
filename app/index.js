@@ -6,6 +6,7 @@ var filePath;
 
 document.querySelector('#md-ed__pick').addEventListener('click', pick);
 document.querySelector('#md-ed__preview').addEventListener('click', preview);
+
 document.querySelector('#md-ed__save').addEventListener('click', save);
 document.querySelector('#md-ed__generate').addEventListener('click', save);
 
@@ -27,7 +28,6 @@ function pick(e){
 
 function preview(e){
 	e.preventDefault();
-	
 	var content = document.querySelector('#md-ed__input').value;
 	ipc.send('open-preview-window', content);
 }
@@ -37,4 +37,5 @@ function save(e){
 	var type = this.dataset.type || 'md';
 	var content = document.querySelector('#md-ed__input').value;
 	ipc.send('save-file-dialog', { type, content });
+	document.querySelector('#md-ed__input').value = '';
 }
