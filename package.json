@@ -1,5 +1,5 @@
 {
-  "name": "md-ed",
+  "name": "MDed",
   "version": "1.0.0",
   "description": "Markdown Editor",
   "main": "main.js",
@@ -8,13 +8,15 @@
     "pretest": "eslint ./**/*.js",
     "test": "browserify app/test/*.spec.js | tape-run | tap-spec",
     "prestart": "mkdir -p .temp",
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds"
   },
   "author": "earthtone <earthlyillusion@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "browserify": "^14.3.0",
     "electron": "1.7.9",
+    "electron-icon-maker": "0.0.4",
     "electron-packager": "^9.1.0",
     "eslint": "^4.5.0",
     "parallelshell": "^3.0.1",
