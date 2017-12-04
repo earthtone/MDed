@@ -62,7 +62,7 @@ ipcMain.on('open-preview-window', function(event, state){
     var html = template({
     meta: {
       stylesheets: stylesheets,
-       scripts: scripts 
+      scripts: scripts 
     }, 
     content: marked(state.content)
   });
