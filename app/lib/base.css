@@ -1,0 +1,25 @@
+@import './reset.css';
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+body {
+	font-family: 'Open Sans', arial, sans;
+}
+
+#app-header h1 {
+	margin: 0;
+}
+
+#app-container {
+	padding: 1em;
+}
+
+#app-container form {
+	display: none;
+}
+
+#app-container form.authenticated {
+	display: grid;
+	grid-template-rows: 1fr 200px 200px;
+}
+
+

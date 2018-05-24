@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Markdown Editor</title>
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="index.css">
+</head>
+<body>
+	<header id="app-header">
+		<h1>Blog Editor</h1>	
+	</header>
+	
+	<main id="app-container">
+		
+
+		<form id="md-editor" class="w3-container">
+			<h4 id="md-file__selected"></h4>	
+			<textarea name="md-ed__input" id="md-ed__input" rows="20"></textarea>
+			<div class="button-group">
+				<button id="md-ed__pick" class="w3-button">Open</button>
+				<button id="md-ed__preview" class="w3-button">Preview</button>
+				<button id="md-ed__post" class="w3-button">Post</button>
+			</div>
+		</form>
+
+		<button id="md-ed__auth">Authorize</button>
+
+	</main>
+	<script>
+		require('./index.js');
+	</script>
+</body>
+</html>
